@@ -1,0 +1,13 @@
+## Interface: 16001
+## Title: Floor
+## Notes: Finds auctions below their vendor price, well below their normal price, or with bids below resale. Scans are read-only; every purchase or bid is your own click in the auction house.
+## Version: 0.7.1
+## SavedVariables: FloorDB
+## OptionalDeps: Auctionator
+## IconTexture: Interface\Icons\INV_Misc_Coin_02
+
+Core.lua
+History.lua
+Scan.lua
+Crafts.lua
+UI.lua
