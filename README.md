@@ -17,8 +17,12 @@ unzip it into the game's AddOns folder, so that `Floor.toc` ends up at
 `World of Warcraft/_forever_/Interface/AddOns`. Then `/reload` or restart
 the game. Auctionator is optional; see **Good to know**.
 
-From a clone, `just install` copies the addon into the game (the `WOW_ADDONS`
-variable points it at another AddOns folder). See **Developing** at the end.
+From a clone, `just install` copies the addon into the game. It knows the
+default Forever folder on macOS (`/Applications/World of Warcraft/_forever_/
+Interface/AddOns`) and Windows (`C:\Program Files (x86)\World of Warcraft\
+_forever_\Interface\AddOns`); anywhere else, including Linux, set
+`WOW_ADDONS` to the game's `Interface/AddOns` folder first. See
+**Developing** at the end.
 
 ## Using it
 
@@ -295,13 +299,18 @@ budget cut the purchase short). Bids are all or nothing. 0 means no limit;
 
 The repository root is the addon: `Floor.toc` and the Lua files load straight
 into the game, and `tests/`, `justfile` and `dist/` are left out when it is
-installed or packaged. The recipes need `just` and `luajit`
-(`brew install just luajit`); `just` alone lists them.
+installed or packaged. The recipes need `just` (1.39 or newer) and, for the
+harness, `luajit`; `just` alone lists them. On macOS, `brew install just
+luajit`. On Windows, `winget install Casey.Just` plus a LuaJIT build on the
+PATH; the recipes run in PowerShell there and need nothing else (no bash,
+rsync or zip). On Linux they run in bash and need `zip`. The Windows recipes
+have not been run on a Windows machine yet; the macOS ones are exercised
+with every install.
 
 | Recipe | What it does |
 |---|---|
 | `just test` | runs the harness, about two hundred checks in under a second |
-| `just install` | runs the harness, then copies the addon into the game's AddOns folder; `/reload` in game picks it up. `WOW_ADDONS=/path/to/AddOns just install` for another install |
+| `just install` | runs the harness, then copies the addon into the game's AddOns folder; `/reload` in game picks it up. `WOW_ADDONS=/path/to/AddOns just install` for another install (required on Linux) |
 | `just package` | builds `dist/Floor-<version>.zip`, which unzips to a `Floor/` folder |
 | `just release` | tags `v<version>` (the version in `Floor.toc`), pushes the tag and publishes a GitHub release with the zip |
 | `just version` | prints the version from `Floor.toc` |
